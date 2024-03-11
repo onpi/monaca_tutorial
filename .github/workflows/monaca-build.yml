@@ -1,0 +1,41 @@
+name: Build Monaca App for Android and iOS
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      
+      - name: Install Monaca CLI
+        run: npm install -g monaca
+
+      - name: Login to Monaca
+        env:
+          MONACA_EMAIL: ${{ secrets.MONACA_EMAIL }}
+          MONACA_PASSWORD: ${{ secrets.MONACA_PASSWORD }}
+        run: monaca login --email $MONACA_EMAIL --password $MONACA_PASSWORD && console.log('Logged in $MONACA_EMAIL')
+
+      - name: Update Config ID for Environment
+        env:
+          BUILD_ENV: ${{ secrets.BUILD_ENV }} # Or 'prod' or any other environment
+        run: |
+          npm install
+          BUILD_ENV=$BUILD_ENV node updateConfigId.js
+
+      - name: Build for Android
+        run: monaca remote build android --build-type debug
+
+      - name: Build for iOS
+        run: monaca remote build ios --build-type debug
+
+    # Optionally, add steps to test or deploy your app
