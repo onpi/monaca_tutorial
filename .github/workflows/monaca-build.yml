@@ -23,7 +23,12 @@ jobs:
         env:
           MONACA_EMAIL: ${{ secrets.MONACA_EMAIL }}
           MONACA_PASSWORD: ${{ secrets.MONACA_PASSWORD }}
-        run: monaca login --email $MONACA_EMAIL --password $MONACA_PASSWORD
+        run: |
+          echo "MONACA_EMAIL=${MONACA_EMAIL}" > monaca.env
+          echo "MONACA_PASSWORD=${MONACA_PASSWORD}" >> monaca.env
+          monaca login --email $(cat monaca.env | grep MONACA_EMAIL | cut -d '=' -f 2-) --password $(cat monaca.env | grep MONACA_PASSWORD | cut -d '=' -f 2-)
+        shell: bash
+      
 
       - name: Update Config ID for Environment
         env:
