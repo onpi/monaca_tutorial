@@ -23,7 +23,7 @@ jobs:
         env:
           MONACA_EMAIL: ${{ secrets.MONACA_EMAIL }}
           MONACA_PASSWORD: ${{ secrets.MONACA_PASSWORD }}
-        run: monaca login --email $MONACA_EMAIL --password $MONACA_PASSWORD && console.log('Logged in $MONACA_EMAIL')
+        run: monaca login --email $MONACA_EMAIL --password $MONACA_PASSWORD
 
       - name: Update Config ID for Environment
         env:
