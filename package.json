@@ -1,0 +1,30 @@
+{
+    "name": "onsenui-v2-todo",
+    "version": "3.0.0",
+    "displayName": "OnsenUI TODO App",
+    "cordova": {
+        "plugins": {
+            "monaca-plugin-monaca-core": {},
+            "cordova-plugin-splashscreen": {},
+            "cordova-plugin-camera": {}
+        }
+    },
+    "dependencies": {
+        "cordova-plugin-camera": "6.0.0",
+        "cordova-plugin-splashscreen": "6.0.0",
+        "dotenv": "^16.4.5",
+        "fs-extra": "^11.2.0",
+        "monaca-plugin-monaca-core": "3.3.1",
+        "xml2js": "^0.6.2"
+    },
+    "scripts": {
+        "monaca:preview": "npm run dev",
+        "dev": "browser-sync start -s www/ --watch --port 8080 --ui-port 8081",
+        "build:dev": "BUILD_ENV=dev node updateConfigId.js && monaca remote build --browser",
+        "build:prod": "BUILD_ENV=prod node updateConfigId.js && monaca remote build --browser"
+    },
+    "devDependencies": {
+        "browser-sync": "^2.27.7",
+        "cordova": "^11.0.0"
+    }
+}
